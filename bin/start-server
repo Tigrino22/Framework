@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+echo "Démarrage du serveur PHP sur http://localhost:8000\n";
+
+$host = "127.0.0.1";
+$port = 8000;
+$publicDir = dirname(__DIR__) . "/public";
+
+// Vérification si le dossier existe
+if (!is_dir($publicDir)) {
+    echo "Erreur: le dossier public/ n'existe pas.";
+    exit(1);
+}
+
+$command = sprintf('php -S %s:%d -t %s', $host, $port, $publicDir);
+echo `Execution de la commande : {$command}`;
+
+// Execution de la commande systeme
+passthru($command);

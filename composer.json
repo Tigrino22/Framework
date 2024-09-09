@@ -1,0 +1,24 @@
+{
+    "name": "tigrino/tigrino_framework",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tigrino\\Api\\": "src/Api/",
+            "Tigrino\\Core\\": "src/Core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tigrino22",
+            "email": "valentin.legris@outlook.com"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.10",
+        "phpunit/phpunit": "^11.3"
+    },
+    "require": {
+        "guzzlehttp/psr7": "^2.7"
+    }
+}

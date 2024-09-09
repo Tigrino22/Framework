@@ -1,0 +1,9 @@
+.vscode/
+
+# Composer
+/vendor/
+composer.lock
+
+# Cache PHPUnit
+/Tests/phpunit.cache/**/*
+
