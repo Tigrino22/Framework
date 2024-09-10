@@ -3,9 +3,9 @@
 namespace Tigrino\Core;
 
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Relay\Relay;
 use Tigrino\Core\Router\Router;
 
 /**
@@ -19,6 +19,8 @@ class App
      * @var Router
      */
     private $router;
+
+    private $middlewares = [];
 
 
     /**
@@ -35,26 +37,37 @@ class App
         $this->router->addRoutes($routes);
     }
 
+
+    public function addMiddleware($middlewares): void
+    {
+        if (is_array($middlewares)) {
+            foreach ($middlewares as $middleware) {
+                $this->middlewares[] = $middleware;
+            }
+        } else {
+            $this->middlewares[] = $middlewares;
+        }
+    }
+
     /**
      * run
      *
      * @param ServerRequestInterface
      * @return ResponseInterface
      */
-    public function run(ServerRequest $request): ResponseInterface
+    public function run(ServerRequestInterface $request): ResponseInterface
     {
 
-        // Récupère l'URI et la méthode de la requête
-        $uri = $request->getUri();
-        $method = $request->getMethod();
+        // Last middleware pour géré le routing
+        $this->addMiddleware(function ($request, $handler) {
+            $response = $this->router->dispatch($request);
 
-        if (!empty($uri) && substr($uri, -1) === "/") {
-            return (new Response())
-                ->withStatus(301)
-                ->withHeader("Location", substr($uri, 0, -1));
-        }
+            return $response;
+        });
 
-        // Logique pour dispatcher la requête et obtenir une réponse
-        return $this->router->dispatch($request);
+        // Execution de la pile de middleware.
+        $relay = new Relay($this->middlewares);
+
+        return $relay->handle($request);
     }
 }
