@@ -2,6 +2,7 @@
 
 /**
  * Tableau où sont inscris tous les middlewares de l'application
+ * Les middlewares sont ici à instancier.
  */
 
 use Tigrino\Core\Middleware\TrailingSlashMiddleware;

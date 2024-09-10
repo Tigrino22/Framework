@@ -2,11 +2,12 @@
 
 namespace Tigrino\Core;
 
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Relay\Relay;
+use Tigrino\Core\Auth\Middleware\RoleMiddleware;
 use Tigrino\Core\Router\Router;
+use Tigrino\Core\Router\RouterInterface;
 
 /**
  * App
@@ -20,7 +21,19 @@ class App
      */
     private $router;
 
+    /**
+     * Middlewares de l'application
+     *
+     *  @var MiddlewareInterface[]
+     */
     private $middlewares = [];
+
+    /**
+     * Modules a charger du programme
+     *
+     *  @var ModuleInterface[]
+     */
+    private $modules = [];
 
 
     /**
@@ -31,13 +44,21 @@ class App
      *
      * @return void
      */
-    public function __construct(array $routes)
+    public function __construct(array $routes, array $modules = [])
     {
         $this->router = new Router();
         $this->router->addRoutes($routes);
+
+        foreach ($modules as $module) {
+            (new $module())($this);
+        }
     }
 
-
+    /**
+     * Fonction ajoutant des middlewares a l'application
+     *
+     *  @param MiddlewareInterface[]|MiddlewareInterface
+     */
     public function addMiddleware($middlewares): void
     {
         if (is_array($middlewares)) {
@@ -58,6 +79,9 @@ class App
     public function run(ServerRequestInterface $request): ResponseInterface
     {
 
+        // Middleware de protection des routes
+        $this->addMiddleware(new RoleMiddleware($this->router->getProtectedRoutes(), $this->router));
+
         // Last middleware pour géré le routing
         $this->addMiddleware(function ($request, $handler) {
             $response = $this->router->dispatch($request);
@@ -69,5 +93,14 @@ class App
         $relay = new Relay($this->middlewares);
 
         return $relay->handle($request);
+    }
+
+    /**
+     *
+     * @return RouterInterface
+     */
+    public function getRouter(): RouterInterface
+    {
+        return $this->router;
     }
 }

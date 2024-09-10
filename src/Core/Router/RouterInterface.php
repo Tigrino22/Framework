@@ -4,6 +4,7 @@ namespace Tigrino\Core\Router;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface RouterInterface
 {
@@ -14,6 +15,13 @@ interface RouterInterface
      * @return void
      */
     public function addRoutes(array $routes): void;
+
+    /**
+     * Retrieves all routes.
+     * Useful if you want to process or display routes.
+     * @return array All routes.
+     */
+    public function getRoutes(): array;
 
     /**
      * Match a given Request Url against stored routes
@@ -29,7 +37,7 @@ interface RouterInterface
      * @param RequestInterface
      * @return ResponseInterface
      */
-    public function dispatch(RequestInterface $request): ResponseInterface;
+    public function dispatch(ServerRequestInterface $request): ResponseInterface;
 
     /**
      * Generate the URL for a named route. Replace regexes with supplied parameters

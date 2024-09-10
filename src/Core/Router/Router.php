@@ -19,6 +19,7 @@ use Tigrino\Core\Router\Exception\ControllerException;
  *  return [
  *          [ "GET", "/blog", [BlogController::class, "index"], "blog.show" ],
  *          [ "GET", "/blog/show-[i:id]", [BlogController::class, "show"], "blog.show" ],
+ *          ["GET", "/blog/name-[a:name]", [BlogController::class, "admin"], "blog.admin", ["admin"]],
  *      ];
  *
  * Pour les paramètrs, voir le lien suivant :
@@ -33,6 +34,14 @@ class Router implements RouterInterface
      * @var Altorouter
      */
     private $router = null;
+
+    /**
+     * Tableaux representant les routes protégées
+     * par un parfeu.
+     *
+     * @var string[]
+     */
+    private $protectedRoutes = [];
 
     /**
      * Initialise l'instance d'AltoRouter lors de la création du Router.
@@ -51,9 +60,32 @@ class Router implements RouterInterface
     public function addRoutes(array $routes): void
     {
         foreach ($routes as $route) {
-            [$method, $path, $callback, $name] = [...$route];
+            [$method, $path, $callback, $name, $role] = $route;
             $this->router->map($method, $path, $callback, $name);
+            if (!empty($role)) {
+                $this->protectedRoutes[$path] = ["name" => $name, "role" => $role]; // Utiliser le chemin comme clé
+            }
         }
+    }
+
+    /**
+     * Retrieves all routes.
+     * Useful if you want to process or display routes.
+     * @return array All routes.
+     */
+    public function getRoutes(): array
+    {
+        return $this->router->getRoutes();
+    }
+
+    /**
+     * Retrieves all protected routes by Auth.
+     * Useful if you want to process or display protected routes.
+     * @return array protected routes.
+     */
+    public function getProtectedRoutes(): array
+    {
+        return $this->protectedRoutes;
     }
 
     /**
@@ -64,9 +96,7 @@ class Router implements RouterInterface
      */
     public function match(string $requestMethod, string $requestUri): ?array
     {
-        // Extraire seulement le chemin de l'URL
-        $path = parse_url($requestUri, PHP_URL_PATH);
-        $match = $this->router->match($path, $requestMethod);
+        $match = $this->router->match($requestUri, $requestMethod);
 
         return $match ?: null;
     }
@@ -79,18 +109,24 @@ class Router implements RouterInterface
      */
     public function dispatch(RequestInterface $request): ResponseInterface
     {
-        $route = $this->match($request->getMethod(), (string) $request->getUri());
+        $route = $this->match($request->getMethod(), (string) $request->getUri()->getPath());
 
         if ($route) {
-            [$controller, $method] = $route['target'];
-            $params = $route['params']; // Extraire les paramètres
+            if (is_array($route['target'])) {
+                [$controller, $method] = $route['target'];
+                $params = $route['params']; // Extraire les paramètres
 
-            if (class_exists($controller) && method_exists($controller, $method)) {
-                // Appeler la méthode du contrôleur avec les paramètres extraits
-                return call_user_func_array([new $controller(), $method], $params);
-            } else {
-                throw new ControllerException("Le controller {$controller} n'est pas trouvable.
+                if (class_exists($controller) && method_exists($controller, $method)) {
+                    // Appeler la méthode du contrôleur avec les paramètres extraits
+                    return call_user_func_array([new $controller(), $method], $params);
+                } else {
+                    throw new ControllerException("Le controller {$controller} n'est pas trouvable.
                     Ou la méthode {$method} n'est pas correcte.");
+                }
+            } elseif (is_callable($route['target'])) {
+                return call_user_func($route['target']);
+            } else {
+                throw new ControllerException("La target {$route['target']} n'est pas une callable.");
             }
         } else {
             return new Response(404, [], "<h1>Page not found</h1>");

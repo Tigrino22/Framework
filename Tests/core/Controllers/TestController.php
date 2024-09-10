@@ -16,4 +16,9 @@ class TestController
     {
         return new Response(200, [], "Hello test {$id}-{$slug}");
     }
+
+    public function admin(): ResponseInterface
+    {
+        return new Response(200, [], "Hello admin");
+    }
 }

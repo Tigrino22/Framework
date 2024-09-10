@@ -16,4 +16,20 @@ class BlogController
     {
         return new Response(200, [], "<h1>Article avec id : {$id}</h1>");
     }
+
+    /**
+     * Route protéger par le role admin.
+     * Retourne en json le nom passé en argument
+     * /blog/name-{$name}
+     *
+     *  @return ResponseInterface
+     */
+    public function admin(string $name): ResponseInterface
+    {
+        $arguments = [
+            "name" => $name
+        ];
+
+        return new Response(200, [], json_encode($arguments));
+    }
 }
