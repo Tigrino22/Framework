@@ -4,8 +4,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tigrino\\Api\\": "src/Api/",
-            "Tigrino\\Core\\": "src/Core/"
+            "Tigrino\\": "src/",
+            "Tests\\": "Tests/"
         }
     },
     "authors": [
@@ -19,6 +19,8 @@
         "phpunit/phpunit": "^11.3"
     },
     "require": {
-        "guzzlehttp/psr7": "^2.7"
+        "guzzlehttp/psr7": "^2.7",
+        "altorouter/altorouter": "^2.0",
+        "http-interop/response-sender": "^1.0"
     }
 }

@@ -12,6 +12,7 @@
     <file>src/</file>
     <file>Public/index.php</file>
     <file>Tests/</file>
+    <file>Config/</file>
 
     <rule ref="PSR12">
         <type>Warning</type>

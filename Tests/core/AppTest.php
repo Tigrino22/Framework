@@ -11,7 +11,7 @@ class AppTest extends TestCase
     public function testRedirectTrailingSlash()
     {
         $request = new ServerRequest("GET", "/azeaze/");
-        $app = new App();
+        $app = new App([]);
         /** @var ResponseInterface */
         $response = $app->run($request);
         $this->assertEquals(301, $response->getStatusCode());
