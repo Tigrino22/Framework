@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Relay\Relay;
 use Tigrino\Core\Auth\Middleware\RoleMiddleware;
+use Tigrino\Core\Modules\ModuleInterface;
 use Tigrino\Core\Router\Router;
 use Tigrino\Core\Router\RouterInterface;
 

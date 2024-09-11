@@ -1,6 +1,8 @@
 <?php
 
-namespace Tigrino\Core;
+namespace Tigrino\Core\Modules;
+
+use Tigrino\Core\App;
 
 interface ModuleInterface
 {

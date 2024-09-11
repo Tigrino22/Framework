@@ -1,4 +1,8 @@
 <?php
 
+use Dotenv\Dotenv;
+
 define("BASE_PATH", dirname(__DIR__));
-define("DEBUG_ENV", true);
+
+$dotenv = Dotenv::createUnsafeImmutable(BASE_PATH);
+$dotenv->load();

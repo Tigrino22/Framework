@@ -1,5 +1,6 @@
 <?php
 
+require "../vendor/autoload.php";
 require_once __DIR__ . "/../Config/Config.php";
 
 use GuzzleHttp\Psr7\ServerRequest;
@@ -7,8 +8,6 @@ use Tigrino\Core\App;
 use Tigrino\Core\Middleware\WhoopsMiddleware;
 
 use function Http\Response\send;
-
-require "../vendor/autoload.php";
 
 $configDir = BASE_PATH . DIRECTORY_SEPARATOR . "Config" . DIRECTORY_SEPARATOR;
 
@@ -22,7 +21,7 @@ $app = new App(include($routes), include($modules));
 
 // Mise en place de Whoops pour l'affiche-age des erreur
 // en environnement de développement.
-if (DEBUG_ENV === true) {
+if (getenv("APP_ENV") === "DEV") {
     $app->addMiddleware(new WhoopsMiddleware());
 }
 

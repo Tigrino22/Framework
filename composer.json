@@ -23,6 +23,7 @@
         "guzzlehttp/psr7": "^2.7",
         "altorouter/altorouter": "^2.0",
         "http-interop/response-sender": "^1.0",
-        "relay/relay": "^2.1"
+        "relay/relay": "^2.1",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

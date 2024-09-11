@@ -3,7 +3,7 @@
 namespace Tigrino\Core\Auth;
 
 use Tigrino\Core\App;
-use Tigrino\Core\ModuleInterface;
+use Tigrino\Core\Modules\ModuleInterface;
 
 class AuthModule implements ModuleInterface
 {
