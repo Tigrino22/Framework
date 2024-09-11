@@ -5,6 +5,7 @@
  * Les middlewares sont ici à instancier.
  */
 
+use Tigrino\Core\Middleware\ErrorMiddleware;
 use Tigrino\Core\Middleware\TrailingSlashMiddleware;
 
 return [

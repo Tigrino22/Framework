@@ -23,7 +23,7 @@ class RouterTest extends TestCase
     {
         // Définir une route GET simple
         $routes = [
-            ["GET", "/test", [TestController::class, "index"], "test.show"]
+            ["GET", "/test", [TestController::class, "index"], "test.show", []]
         ];
 
         $this->router->addRoutes($routes);
@@ -45,7 +45,7 @@ class RouterTest extends TestCase
         $routes = [
             ["GET", "/test", function () {
                 return new Response(200, [], "Hello test callable");
-            }, "test.show"]
+            }, "test.show", []]
         ];
 
         $this->router->addRoutes($routes);
@@ -65,7 +65,7 @@ class RouterTest extends TestCase
     {
         // Définir une route GET mais tester une requête POST
         $routes = [
-            ["GET", "/test", [TestController::class, "index"], "test.show"]
+            ["GET", "/test", [TestController::class, "index"], "test.show", []]
         ];
 
         $this->router->addRoutes($routes);
@@ -85,7 +85,7 @@ class RouterTest extends TestCase
     {
         // Définir une route avec un paramètre {id}
         $routes = [
-            ["GET", "/test/[i:id]-[a:slug]", [TestController::class, "show"], "test.showWithId"]
+            ["GET", "/test/[i:id]-[a:slug]", [TestController::class, "show"], "test.showWithId", []]
         ];
 
         $this->router->addRoutes($routes);

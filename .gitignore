@@ -1,4 +1,5 @@
 .vscode/
+.idea/
 
 # Composer
 /vendor/
@@ -10,4 +11,6 @@ composer.lock
 # Varibales d'environnement
 .env
 .env.prod.local
+
+Logs/**/*.log
 
