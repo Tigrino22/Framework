@@ -12,7 +12,7 @@ class JsonResponseTest extends TestCase
     {
         // Réponse JSON avec des données
         $data = ['status' => 'success', 'message' => 'Test passed'];
-        $response = JsonResponse::create([], 200, $data);
+        $response = JsonResponse::create(200, [], $data);
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
 
@@ -23,7 +23,7 @@ class JsonResponseTest extends TestCase
     public function testJsonResponseStatusCode()
     {
         $data = ['status' => 'error', 'message' => 'Test failed'];
-        $response = new JsonResponse($data, 400);
+        $response = new JsonResponse(400, headers: [], data: $data);
 
         $this->assertEquals(400, $response->getStatusCode());
     }

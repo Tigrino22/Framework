@@ -82,6 +82,9 @@ class RouterTest extends TestCase
         $this->assertEquals("<h1>Page not found</h1>", (string)$response->getBody());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRouteWithParameter()
     {
         // Définir une route avec un paramètre {id}
@@ -123,7 +126,8 @@ class RouterTest extends TestCase
             ["GET", "/admin", [TestController::class, "admin"], "admin.dashboard", ["admin"]]
         ];
 
-        $app = new App($routes);
+        $app = new App([]);
+        $app->getRouter()->addRoutes($routes);
 
         // Simuler une requête avec un rôle insuffisant
         $request = new ServerRequest('GET', '/admin');

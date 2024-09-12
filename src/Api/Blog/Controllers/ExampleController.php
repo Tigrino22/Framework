@@ -44,8 +44,11 @@ class ExampleController extends AbstractController
 
     public function create(): ResponseInterface
     {
-        // Récupérer les données POST
-        $data = $this->request->getParsedBody();
+        // Récupérer les données brutes POST
+        $body = $this->request->getBody()->getContents();
+
+        // Décode le JSON si nécessaire
+        $data = json_decode($body, true);
 
         // Vérifie les données reçues
         $dataReceived = $data ?: 'Aucune donnée reçue';

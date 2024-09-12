@@ -4,7 +4,7 @@
  * L'injection des modules ici se fait par nom de dossier.
  */
 
-use Tigrino\Core\Auth\AuthModule;
+use Tigrino\Auth\AuthModule;
 
 return [
     AuthModule::class,

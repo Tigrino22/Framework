@@ -12,6 +12,7 @@ use Tigrino\Core\Errors\ErrorHandler;
 (function () {
     // Déclaration des constantes
     define("BASE_PATH", dirname(__DIR__));
+    define("CONFIG_DIR", __DIR__);
 
     // Chargement des variables d'environnement
     $dotenv = Dotenv::createUnsafeImmutable(BASE_PATH);

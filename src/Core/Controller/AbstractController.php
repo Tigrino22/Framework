@@ -12,17 +12,18 @@ abstract class AbstractController
     /**
      * @var RequestInterface|ServerRequestInterface
      */
-    protected RequestInterface $request;
+    protected RequestInterface|ServerRequestInterface $request;
 
     /**
      * Exécute la méthode demandée avec les paramètres et la requête.
      *
      * @param string $method
      * @param array $params
-     * @param ServerRequestInterface|RequestInterface $request
+     * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws \Exception
      */
-    public function execute(string $method, array $params, RequestInterface $request): ResponseInterface
+    public function execute(string $method, array $params, ServerRequestInterface $request): ResponseInterface
     {
 
         $this->request = $request;

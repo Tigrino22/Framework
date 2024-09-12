@@ -19,7 +19,7 @@ class JsonResponse extends Response
      * @param int $status
      * @param array $headers
      */
-    public function __construct(array $headers = [], int $status = 200, array $data = [])
+    public function __construct(int $status = 200, array $headers = [], array $data = [])
     {
         $headers = array_merge(['Content-Type' => 'application/json'], $headers);
         $body = json_encode($data);
@@ -33,8 +33,8 @@ class JsonResponse extends Response
      * @param array $headers
      * @return ResponseInterface
      */
-    public static function create(array $headers = [], int $status = 200, array $data = []): ResponseInterface
+    public static function create(int $status = 200, array $headers = [], array $data = []): ResponseInterface
     {
-        return new self($headers, $status, $data);
+        return new self($status, $headers, $data);
     }
 }

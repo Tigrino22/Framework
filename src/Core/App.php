@@ -4,8 +4,9 @@ namespace Tigrino\Core;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Relay\Relay;
-use Tigrino\Core\Auth\Middleware\RoleMiddleware;
+use Tigrino\Auth\Middleware\RoleMiddleware;
 use Tigrino\Core\Modules\ModuleInterface;
 use Tigrino\Core\Router\Router;
 use Tigrino\Core\Router\RouterInterface;
@@ -36,20 +37,25 @@ class App
      */
     private $modules = [];
 
-
     /**
      * __construct
-     * Prends en paramètre un tableau de routes via un fichier de configuration
+     * Prends en paramètre un tableau de modules via un fichier de configuration
      *
-     * @param  array routes
+     * @param array $modules
      *
      * @return void
      */
-    public function __construct(array $routes, array $modules = [])
+    public function __construct(array $modules = [])
     {
         $this->router = new Router();
-        $this->router->addRoutes($routes);
 
+        // Ajout des routes générales.
+        $this->router->addRoutes(include(CONFIG_DIR . "/Routes.php"));
+
+        /**
+         * Initialisation de chaque module
+         * en passant par la méthode __invocke?
+         */
         foreach ($modules as $module) {
             (new $module())($this);
         }
@@ -74,12 +80,11 @@ class App
     /**
      * run
      *
-     * @param ServerRequestInterface
+     * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-
         // Middleware de protection des routes
         $this->addMiddleware(new RoleMiddleware($this->router->getProtectedRoutes(), $this->router));
 
@@ -97,6 +102,8 @@ class App
     }
 
     /**
+     * Getter nécessaire pour que chaque module
+     * initialise ses propres routes.
      *
      * @return RouterInterface
      */

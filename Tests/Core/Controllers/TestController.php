@@ -5,16 +5,17 @@ namespace Tests\Core\Controllers;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
+use Tigrino\Core\Controller\AbstractController;
 use Tigrino\Http\Response\JsonResponse;
 
-class TestController
+class TestController extends AbstractController
 {
     public function index(): ResponseInterface
     {
         return new Response(200, [], "Hello test");
     }
 
-    public function show(ServerRequest $request, int $id, string $slug): ResponseInterface
+    public function show(int $id, string $slug): ResponseInterface
     {
         return new Response(200, [], "Hello test {$id}-{$slug}");
     }
