@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Tigrino\Core\Router\Router;
 use Tests\Core\Controllers\TestController;
 use Tigrino\Core\App;
+use Tigrino\Http\Response\JsonResponse;
 
 class RouterTest extends TestCase
 {
@@ -155,5 +156,39 @@ class RouterTest extends TestCase
         // Vérifier que la réponse est correcte
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("Hello admin", (string)$response->getBody()); // Modifier selon la réponse attendue
+    }
+
+    public function testCreate()
+    {
+        $controller = new TestController();
+
+        $routes = [
+            ["POST", "/test/create", [TestController::class, "create"], "test.create", []]
+        ];
+
+        // Simuler une requête POST avec des données
+        $request = new ServerRequest(
+            'POST',
+            '/test/create',
+            [],
+            json_encode(['title' => 'New Post', 'content' => 'This is a new post'])
+        );
+        $request = $request->withParsedBody(['title' => 'New Post', 'content' => 'This is a new post']);
+
+        $response = $controller->create($request);
+
+        // Vérifier que la réponse est de type JsonResponse
+        $this->assertInstanceOf(JsonResponse::class, $response);
+
+        // Vérifier le code de statut
+        $this->assertEquals(200, $response->getStatusCode());
+
+        // Vérifier le contenu JSON de la réponse
+        $body = (string)$response->getBody();
+        $expected = [
+            'message' => 'Données reçues avec succès',
+            'data' => ['title' => 'New Post', 'content' => 'This is a new post']
+        ];
+        $this->assertJsonStringEqualsJsonString(json_encode($expected), $body);
     }
 }

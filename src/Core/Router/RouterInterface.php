@@ -4,7 +4,6 @@ namespace Tigrino\Core\Router;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 interface RouterInterface
 {
@@ -37,7 +36,7 @@ interface RouterInterface
      * @param RequestInterface
      * @return ResponseInterface
      */
-    public function dispatch(ServerRequestInterface $request): ResponseInterface;
+    public function dispatch(RequestInterface $request): ResponseInterface;
 
     /**
      * Generate the URL for a named route. Replace regexes with supplied parameters

@@ -7,10 +7,12 @@
  *
  */
 
-use Tigrino\Api\Blog\Controllers\BlogController;
+use Tigrino\Api\Blog\Controllers\ExampleController;
 
 return [
-    ["GET",     "/blog/name-[a:name]",   [BlogController::class, "admin"],   "blog.admin",   ["admin"]],
-    ["GET",     "/blog/show-[i:id]",    [BlogController::class, "show"],    "blog.show",    []],
-    ["GET",     "/",                    [BlogController::class, "index"],   "blog",         []],
+    ["POST",     "/blog/create",            [ExampleController::class, "create"],  "blog.create",  []],
+    ["POST",     "/",                       [ExampleController::class, "getInfo"], "blog.post",    []],
+    ["GET",     "/blog/name-[a:name]",      [ExampleController::class, "admin"],   "blog.admin",   ["admin"]],
+    ["GET",     "/blog/show-[i:id]",        [ExampleController::class, "show"],    "blog.show",    []],
+    ["GET",     "/",                        [ExampleController::class, "index"],   "blog",         []],
 ];

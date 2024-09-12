@@ -55,13 +55,22 @@ class CORSMiddleware implements MiddlewareInterface
 
     protected function addCorsHeaders(ResponseInterface $response, string $origin): ResponseInterface
     {
-        if (in_array($origin, $this->settings['allowed_origins']) || in_array('*', $this->settings['allowed_origins'])) {
+        if (
+            in_array($origin, $this->settings['allowed_origins'])
+            || in_array('*', $this->settings['allowed_origins'])
+        ) {
             $response = $response->withHeader('Access-Control-Allow-Origin', $origin)
-                ->withHeader('Access-Control-Allow-Credentials', $this->settings['allow_credentials'] ? 'true' : 'false');
+                ->withHeader(
+                    'Access-Control-Allow-Credentials',
+                    $this->settings['allow_credentials'] ? 'true' : 'false'
+                );
         }
 
         if (!empty($this->settings['exposed_headers'])) {
-            $response = $response->withHeader('Access-Control-Expose-Headers', implode(', ', $this->settings['exposed_headers']));
+            $response = $response->withHeader(
+                'Access-Control-Expose-Headers',
+                implode(', ', $this->settings['exposed_headers'])
+            );
         }
 
         return $response;

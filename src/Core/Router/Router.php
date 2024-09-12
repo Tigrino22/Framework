@@ -4,8 +4,9 @@ namespace Tigrino\Core\Router;
 
 use AltoRouter;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Tigrino\Core\Controller\AbstractController;
 use Tigrino\Core\Router\Exception\ControllerException;
 
 /**
@@ -17,9 +18,9 @@ use Tigrino\Core\Router\Exception\ControllerException;
  *
  * ex:
  *  return [
- *          [ "GET", "/blog", [BlogController::class, "index"], "blog.show" ],
- *          [ "GET", "/blog/show-[i:id]", [BlogController::class, "show"], "blog.show" ],
- *          ["GET", "/blog/name-[a:name]", [BlogController::class, "admin"], "blog.admin", ["admin"]],
+ *          [ "GET", "/blog", [ExampleController::class, "index"], "blog.show" ],
+ *          [ "GET", "/blog/show-[i:id]", [ExampleController::class, "show"], "blog.show" ],
+ *          ["GET", "/blog/name-[a:name]", [ExampleController::class, "admin"], "blog.admin", ["admin"]],
  *      ];
  *
  * Pour les paramètrs, voir le lien suivant :
@@ -106,6 +107,7 @@ class Router implements RouterInterface
      *
      * @param RequestInterface
      * @return ResponseInterface
+     * @throws \Exception
      */
     public function dispatch(RequestInterface $request): ResponseInterface
     {
@@ -114,14 +116,16 @@ class Router implements RouterInterface
         if ($route) {
             if (is_array($route['target'])) {
                 [$controller, $method] = $route['target'];
-                $params = $route['params']; // Extraire les paramètres
+                $params = $route['params'];
 
-                if (class_exists($controller) && method_exists($controller, $method)) {
-                    // Appeler la méthode du contrôleur avec les paramètres extraits
-                    return call_user_func_array([new $controller(), $method], $params);
+                if (class_exists($controller) && is_subclass_of($controller, AbstractController::class)) {
+                    $controllerInstance = new $controller();
+                    return $controllerInstance->execute($method, $params, $request);
                 } else {
-                    throw new ControllerException("Le controller {$controller} n'est pas trouvable.
-                    Ou la méthode {$method} n'est pas correcte.");
+                    throw new ControllerException(
+                        "Le controller {$controller} n'est pas trouvable 
+                        ou n'est pas un sous-classe d'AbstractController."
+                    );
                 }
             } elseif (is_callable($route['target'])) {
                 return call_user_func($route['target']);
@@ -132,6 +136,8 @@ class Router implements RouterInterface
             return new Response(404, [], "<h1>Page not found</h1>");
         }
     }
+
+
 
 
     /**
