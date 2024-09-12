@@ -1,5 +1,5 @@
 {
-    "name": "tigrino/tigrino_framework",
+    "name": "tigrino/framework",
     "type": "project",
     "license": "MIT",
     "autoload": {

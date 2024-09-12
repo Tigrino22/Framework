@@ -1,5 +1,7 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 echo "Démarrage du serveur PHP sur http://localhost:8000\n";
 
@@ -14,7 +16,7 @@ if (!is_dir($publicDir)) {
 }
 
 $command = sprintf('php -S %s:%d -t %s', $host, $port, $publicDir);
-echo `Execution de la commande : {$command}`;
+echo "Execution de la commande : {$command}";
 
 // Execution de la commande systeme
 passthru($command);
