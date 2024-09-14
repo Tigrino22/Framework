@@ -91,8 +91,8 @@ class Router implements RouterInterface
 
     /**
      * Match a given Request Url against stored routes
-     * @param string $requestUrl
      * @param string $requestMethod
+     * @param string $requestUri
      * @return ?array Array with route information on success, false on failure (no match).
      */
     public function match(string $requestMethod, string $requestUri): ?array
@@ -105,8 +105,9 @@ class Router implements RouterInterface
     /**
      * Après le match, méthode qui va chercher le callback afin de l'appeler.
      *
-     * @param RequestInterface
+     * @param RequestInterface $request
      * @return ResponseInterface
+     * @throws ControllerException
      * @throws \Exception
      */
     public function dispatch(RequestInterface $request): ResponseInterface
@@ -138,14 +139,13 @@ class Router implements RouterInterface
     }
 
 
-
-
     /**
      * Generate the URL for a named route. Replace regexes with supplied parameters
      *
      * @param string $routeName The name of the route.
-     * @param array @params Associative array of parameters to replace placeholders with.
+     * @param array $params Associative array of parameters to replace placeholders with.
      * @return string The URL of the route with named parameters in place.
+     * @throws \Exception
      */
     public function generate($routeName, array $params = []): string
     {

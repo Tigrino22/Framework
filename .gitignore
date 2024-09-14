@@ -11,5 +11,5 @@ composer.lock
 # Varibales d'environnement
 .env
 
-Logs/**/*.log
-
+# Fichiers de log
+*.log
