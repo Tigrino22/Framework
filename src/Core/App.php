@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Relay\Relay;
-use Tigrino\Auth\Middleware\RoleMiddleware;
+use Tigrino\Auth\Middleware\AuthMiddleware;
 use Tigrino\Core\Modules\ModuleInterface;
 use Tigrino\Core\Router\Router;
 use Tigrino\Core\Router\RouterInterface;
@@ -86,13 +86,11 @@ class App
     public function run(ServerRequestInterface $request): ResponseInterface
     {
         // Middleware de protection des routes
-        $this->addMiddleware(new RoleMiddleware($this->router->getProtectedRoutes(), $this->router));
+        $this->addMiddleware(new AuthMiddleware($this->router->getProtectedRoutes(), $this->router));
 
         // Last middleware pour géré le routing
         $this->addMiddleware(function ($request, $handler) {
-            $response = $this->router->dispatch($request);
-
-            return $response;
+            return $this->router->dispatch($request);
         });
 
         // Execution de la pile de middleware.

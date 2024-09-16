@@ -17,7 +17,7 @@ class ExampleController extends AbstractController
     public function index(): ResponseInterface
     {
         $data = [
-            "message" => "<h1>Fonction index du controller Blog</h1>"
+            "message" => $this->request->getServerParams()
         ];
         return new JsonResponse(data: $data);
     }
@@ -36,10 +36,15 @@ class ExampleController extends AbstractController
     public function admin(string $name): ResponseInterface
     {
         $arguments = [
-        "name" => $name
+        "name" => $name,
+            "message" => "Bravo, tu as atteind la route!"
         ];
 
-        return new Response(200, [], json_encode($arguments));
+        return new JsonResponse(
+            200,
+            [],
+            $arguments
+        );
     }
 
     public function create(): ResponseInterface

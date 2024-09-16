@@ -44,7 +44,7 @@ class DatabaseTest extends TestCase
 
         $result = $this->db->query("SELECT * FROM users WHERE name = :name", ['name' => 'John Doe']);
         $this->assertCount(1, $result);
-        $this->assertEquals('John Doe', $result[0]->name);
+        $this->assertEquals('John Doe', $result[0]['name']);
     }
 
     public function testTransaction()
@@ -55,7 +55,7 @@ class DatabaseTest extends TestCase
 
         $result = $this->db->query("SELECT * FROM users WHERE name = :name", ['name' => 'Jane Doe']);
         $this->assertCount(1, $result);
-        $this->assertEquals('Jane Doe', $result[0]->name);
+        $this->assertEquals('Jane Doe', $result[0]['name']);
     }
 
     public function testRollback()
@@ -75,6 +75,6 @@ class DatabaseTest extends TestCase
 
         $result = $this->db->query("SELECT * FROM users WHERE id = :id", ['id' => $lastId]);
         $this->assertCount(1, $result);
-        $this->assertEquals('Last Insert Test', $result[0]->name);
+        $this->assertEquals('Last Insert Test', $result[0]['name']);
     }
 }

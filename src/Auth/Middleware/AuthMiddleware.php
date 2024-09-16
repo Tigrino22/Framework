@@ -7,17 +7,23 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Tigrino\Auth\Entity\GuestUser;
+use Tigrino\Auth\Entity\User;
+use Tigrino\Auth\Repository\UserRepository;
 use Tigrino\Core\Router\RouterInterface;
 
-class RoleMiddleware implements MiddlewareInterface
+class AuthMiddleware implements MiddlewareInterface
 {
     private $protectedRoutes = [];
     private $router;
+    private UserRepository $userRepository;
+    private User $user;
 
     public function __construct(array $protectedRoutes, RouterInterface $router)
     {
         $this->protectedRoutes = $protectedRoutes;
         $this->router = $router;
+        $this->userRepository = new UserRepository();
     }
 
     /**
@@ -29,7 +35,15 @@ class RoleMiddleware implements MiddlewareInterface
         // Obtenir le chemin et la méthode HTTP
         $path = $request->getUri()->getPath();
         $method = $request->getMethod();
-        $userRole = $request->getAttribute('user_role');
+
+        /**
+         * Si nous avons un session_token c'est que l'utilisateur est authentifié.
+         */
+        if (isset($request->getCookieParams()['session_token'])) {
+            $user = $this->userRepository->findBySessionToken($request->getCookieParams()['session_token']);
+        } else {
+            $user = new GuestUser();
+        }
 
         // Match pour trouver une route qui correspond a la requête
         $match = $this->router->match($method, $path);
@@ -42,7 +56,7 @@ class RoleMiddleware implements MiddlewareInterface
                     $requiredRoles = $protectedRoute['role'];
 
                     // Vérifier si l'utilisateur a les rôles requis
-                    if (count($requiredRoles) > 0 && !in_array($userRole, $requiredRoles)) {
+                    if (count($requiredRoles) > 0 && !array_intersect($user->getRoles(), $requiredRoles)) {
                         return new Response(403, [], "<h1>Accès interdit</h1>");
                     }
                 }
