@@ -1,7 +1,11 @@
 {
     "name": "tigrino/framework",
-    "type": "project",
+    "type": "package",
+    "description": "A basic framework who you can set like you want, with CORS, Routes, and Auth",
+    "keywords": ["framework"],
+    "homepage": "https://github.com/Tigrino22/Framework",
     "license": "MIT",
+    "version": "0.0.1",
     "autoload": {
         "psr-4": {
             "Tigrino\\": "src/",
@@ -20,6 +24,7 @@
         "filp/whoops": "^2.15"
     },
     "require": {
+        "php": ">=8.3.0",
         "guzzlehttp/psr7": "^2.7",
         "altorouter/altorouter": "^2.0",
         "http-interop/response-sender": "^1.0",
