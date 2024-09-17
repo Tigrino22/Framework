@@ -15,6 +15,9 @@ CONTROLLER_DIR="$MODULE_DIR/Controller"
 ENTITY_DIR="$MODULE_DIR/Entity"
 REPOSITORY_DIR="$MODULE_DIR/Repository"
 MIDDLEWARE_DIR="$MODULE_DIR/Middleware"
+MODULE_FILE="$MODULE_DIR/${MODULE_NAME}Module.php"
+ROUTES_FILE="$CONFIG_DIR/Routes.php"
+CONTROLLER_FILE="$CONTROLLER_DIR/${MODULE_NAME}Controller.php"
 
 # Crée la structure du module
 mkdir -p "$MODULE_DIR"
@@ -25,7 +28,6 @@ mkdir -p "$REPOSITORY_DIR"
 mkdir -p "$MIDDLEWARE_DIR"
 
 # Crée le fichier du module avec l'interface ModuleInterface
-MODULE_FILE="$MODULE_DIR/${MODULE_NAME}Module.php"
 echo "<?php
 
 namespace Tigrino\\$MODULE_NAME;
@@ -43,7 +45,6 @@ class ${MODULE_NAME}Module implements ModuleInterface
 " > "$MODULE_FILE"
 
 # Crée le fichier de configuration des routes
-ROUTES_FILE="$CONFIG_DIR/Routes.php"
 echo "<?php
 
 return [
@@ -52,7 +53,6 @@ return [
 " > "$ROUTES_FILE"
 
 # Crée le contrôleur
-CONTROLLER_FILE="$CONTROLLER_DIR/${MODULE_NAME}Controller.php"
 echo "<?php
 
 namespace Tigrino\\$MODULE_NAME\\Controller;
@@ -69,5 +69,11 @@ class ${MODULE_NAME}Controller extends AbstractController
     }
 }
 " > "$CONTROLLER_FILE"
+
+# Prépare l'entrée pour le module
+MODULE_ENTRY="${MODULE_NAME}Module::class"
+
+# Appelle le script PHP pour ajouter le module à ./Config/Modules.php
+php bin/add-module.php "$MODULE_ENTRY" "$MODULE_NAME"
 
 echo "Le module '$MODULE_NAME' a été créé avec succès dans le dossier 'src/$MODULE_NAME'."
