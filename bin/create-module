@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Vérifie qu'un nom de module a été fourni
+if [ -z "$1" ]; then
+    echo "Erreur : aucun nom de module fourni."
+    echo "Utilisation : ./bin/create-module nom_du_module"
+    exit 1
+fi
+
+# Récupère le nom du module
+MODULE_NAME="$1"
+MODULE_DIR="src/$MODULE_NAME"
+CONFIG_DIR="$MODULE_DIR/Config"
+CONTROLLER_DIR="$MODULE_DIR/Controller"
+ENTITY_DIR="$MODULE_DIR/Entity"
+REPOSITORY_DIR="$MODULE_DIR/Repository"
+MIDDLEWARE_DIR="$MODULE_DIR/Middleware"
+
+# Crée la structure du module
+mkdir -p "$MODULE_DIR"
+mkdir -p "$CONFIG_DIR"
+mkdir -p "$CONTROLLER_DIR"
+mkdir -p "$ENTITY_DIR"
+mkdir -p "$REPOSITORY_DIR"
+mkdir -p "$MIDDLEWARE_DIR"
+
+# Crée le fichier du module avec l'interface ModuleInterface
+MODULE_FILE="$MODULE_DIR/${MODULE_NAME}Module.php"
+echo "<?php
+
+namespace Tigrino\\$MODULE_NAME;
+
+use Tigrino\\Core\\App;
+use Tigrino\\Core\\Modules\\ModuleInterface;
+
+class ${MODULE_NAME}Module implements ModuleInterface
+{
+    public function __invoke(App &\$app)
+    {
+        // Logique d'initialisation du module
+    }
+}
+" > "$MODULE_FILE"
+
+# Crée le fichier de configuration des routes
+ROUTES_FILE="$CONFIG_DIR/Routes.php"
+echo "<?php
+
+return [
+    // Définit les routes spécifiques au module
+];
+" > "$ROUTES_FILE"
+
+# Crée le contrôleur
+CONTROLLER_FILE="$CONTROLLER_DIR/${MODULE_NAME}Controller.php"
+echo "<?php
+
+namespace Tigrino\\$MODULE_NAME\\Controller;
+
+use Tigrino\\Core\\Controller\\AbstractController;
+use Psr\\Http\\Message\\ResponseInterface;
+use Psr\\Http\\Message\\ServerRequestInterface;
+
+class ${MODULE_NAME}Controller extends AbstractController
+{
+    public function index(ServerRequestInterface \$request): ResponseInterface
+    {
+        // Logique pour la méthode index
+    }
+}
+" > "$CONTROLLER_FILE"
+
+echo "Le module '$MODULE_NAME' a été créé avec succès dans le dossier 'src/$MODULE_NAME'."

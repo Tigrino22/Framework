@@ -1,22 +1,20 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-declare(strict_types=1);
+# Définition de l'adresse et du port
+host="127.0.0.1"
+port=8000
+public_dir="$(dirname "$0")/../public"
 
-echo "Démarrage du serveur PHP sur http://localhost:8000\n";
+# Vérification si le dossier public/ existe
+if [ ! -d "$public_dir" ]; then
+    echo -e "\033[31mErreur: le dossier public/ n'existe pas.\033[0m"
+    exit 1
+fi
 
-$host = "127.0.0.1";
-$port = 8000;
-$publicDir = dirname(__DIR__) . "/public";
+# Démarrage du serveur PHP
+command="php -S $host:$port -t $public_dir"
+echo -e "\033[32mDémarrage du serveur PHP sur http://$host:$port\033[0m"
+echo "Exécution de la commande : $command"
 
-// Vérification si le dossier existe
-if (!is_dir($publicDir)) {
-    echo "Erreur: le dossier public/ n'existe pas.";
-    exit(1);
-}
-
-$command = sprintf('php -S %s:%d -t %s', $host, $port, $publicDir);
-echo "Execution de la commande : {$command}";
-
-// Execution de la commande systeme
-passthru($command);
+# Exécution de la commande
+$command

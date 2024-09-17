@@ -1,31 +1,24 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-declare(strict_types=1);
+# Chargement des variables d'environnement à partir du fichier .env
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
 
-/**
- * Fichier nettoyant les logs.
- * Il sera important de le protéger avec que les
- * logs ne soient pas supprimer par inadvertence
- * ou part vandalisme.
- *
- */
+# Vérifie que nous sommes en environnement de développement
+if [ "$APP_ENV" != "DEV" ]; then
+    echo -e "\033[31mLa suppression des logs n'est possible qu'en environnement de développement.\033[0m"
+    exit 1
+fi
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/Core/Misc/utils.php';
+LOG_FILE="Logs/errors.log"
 
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createUnsafeImmutable(dirname(__DIR__));
-$dotenv->load();
-
-if (getenv("APP_ENV") === "DEV") {
-    try {
-        file_put_contents(dirname(__DIR__) . "/Logs/errors.log", "");
-        colorLog("Les logs ont bien été nettoyés.\n", "s");
-    } catch (\Exception $e) {
-        colorLog("Une Erreur est survenue pendant le nettoyage des logs : {$e->getMessage()}\n", "e");
-    }
-} else {
-    colorLog("La suppression des logs n'est possible qu'en environnement de développement.\n", "e");
-}
+# Vérifie que le fichier des logs existe avant de tenter de le nettoyer
+if [ -f "$LOG_FILE" ]; then
+    # Nettoie le fichier des logs
+    > "$LOG_FILE"
+    echo -e "\033[32mLes logs ont bien été nettoyés.\033[0m"
+else
+    echo -e "\033[31mLe fichier des logs n'existe pas : $LOG_FILE\033[0m"
+    exit 1
+fi

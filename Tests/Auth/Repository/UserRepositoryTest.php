@@ -90,7 +90,15 @@ class UserRepositoryTest extends TestCase
     {
         $this->database->execute(query: "
             INSERT INTO users (id, username, email, password, roles, session_token, last_login)
-            VALUES ('test-uuid', 'testuser', 'test@example.com', 'password', '[\"ROLE_USER\"]', 'new-token', '2024-01-01 00:00:00')
+            VALUES (
+                    'test-uuid', 
+                    'testuser', 
+                    'test@example.com', 
+                    'password', 
+                    '[\"ROLE_USER\"]', 
+                    'new-token', 
+                    '2024-01-01 00:00:00'
+                )
         ");
 
         $user = $this->userRepository->findByEmail('test@example.com');
@@ -103,7 +111,15 @@ class UserRepositoryTest extends TestCase
     {
         $this->database->execute(query: "
             INSERT INTO users (id, username, email, password, roles, session_token, last_login)
-            VALUES ('test-uuid', 'testuser', 'test@example.com', 'password', '[\"ROLE_USER\"]', 'new-token', '2024-01-01 00:00:00')
+            VALUES (
+                    'test-uuid', 
+                    'testuser', 
+                    'test@example.com', 
+                    'password', 
+                    '[\"ROLE_USER\"]', 
+                    'new-token', 
+                    '2024-01-01 00:00:00'
+                )
         ");
 
         $user = $this->userRepository->findByUsername('testuser');
@@ -116,7 +132,15 @@ class UserRepositoryTest extends TestCase
     {
         $this->database->execute(query: "
             INSERT INTO users (id, username, email, password, roles, session_token, last_login)
-            VALUES ('test-uuid', 'testuser', 'test@example.com', 'password', '[\"ROLE_USER\"]', 'new-token', '2024-01-01 00:00:00')
+            VALUES (
+                    'test-uuid', 
+                    'testuser', 
+                    'test@example.com', 
+                    'password', 
+                    '[\"ROLE_USER\"]', 
+                    'new-token', 
+                    '2024-01-01 00:00:00'
+                )
         ");
 
         $user = $this->userRepository->findBySessionToken('new-token');

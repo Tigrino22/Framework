@@ -27,7 +27,9 @@ class AuthMiddleware implements MiddlewareInterface
     }
 
     /**
-     *
+     * Vérification si une route fait partie des routes protéger par un rôle.
+     * Si c'est le cas, recupération du token de session de l'utilisateur.
+     * Vérification via ce token de session en BDD du role.
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -35,15 +37,6 @@ class AuthMiddleware implements MiddlewareInterface
         // Obtenir le chemin et la méthode HTTP
         $path = $request->getUri()->getPath();
         $method = $request->getMethod();
-
-        /**
-         * Si nous avons un session_token c'est que l'utilisateur est authentifié.
-         */
-        if (isset($request->getCookieParams()['session_token'])) {
-            $user = $this->userRepository->findBySessionToken($request->getCookieParams()['session_token']);
-        } else {
-            $user = new GuestUser();
-        }
 
         // Match pour trouver une route qui correspond a la requête
         $match = $this->router->match($method, $path);
@@ -54,6 +47,15 @@ class AuthMiddleware implements MiddlewareInterface
             foreach ($this->protectedRoutes as $protectedRoute) {
                 if ($match['name'] === $protectedRoute['name']) {
                     $requiredRoles = $protectedRoute['role'];
+
+                    /**
+                    * Si nous avons un session_token c'est que l'utilisateur est authentifié.
+                    */
+                    if (isset($request->getCookieParams()['session_token'])) {
+                        $user = $this->userRepository->findBySessionToken($request->getCookieParams()['session_token']);
+                    } else {
+                        $user = new GuestUser();
+                    }
 
                     // Vérifier si l'utilisateur a les rôles requis
                     if (count($requiredRoles) > 0 && !array_intersect($user->getRoles(), $requiredRoles)) {
