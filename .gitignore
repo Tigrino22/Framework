@@ -12,6 +12,7 @@ composer.lock
 .env
 
 # Fichiers de log
+Logs/
 *.log
 /tmp/
 
