@@ -1,5 +1,7 @@
 # Tigrino Framework
 
+[![Build Status](https://app.travis-ci.com/Tigrino22/Framework.svg?token=FPUmKFe4CQMxCyKoJYqM&branch=main)](https://app.travis-ci.com/Tigrino22/Framework)
+
 Bienvenue dans le **Tigrino Framework**, un framework PHP léger et flexible conçu pour vous aider à développer des applications web avec facilité.
 
 ## Table des Matières
