@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cp ./vendor/tigrino/tigrino-framework/Public/index.php Public/
+cp ./vendor/tigrino/tigrino-framework/Config/* Config/
+
+mkdir Logs
+cd Logs/
+touch errors.log
+cd ..
+
+cp ./vendor/tigrino/tigrino-framework/.env.example .env

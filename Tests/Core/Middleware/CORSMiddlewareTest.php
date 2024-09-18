@@ -101,5 +101,4 @@ class CORSMiddlewareTest extends TestCase
             $response->getHeaderLine('Access-Control-Expose-Headers')
         );
     }
-
 }

@@ -47,6 +47,4 @@ class ErrorMiddlewareTest extends TestCase
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertStringContainsString('Internal Server Error', $response->getBody());
     }
-
-
 }
