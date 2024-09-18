@@ -1,6 +1,6 @@
 # Tigrino Framework
 
-[![Build Status](https://app.travis-ci.com/Tigrino22/Framework.svg?token=FPUmKFe4CQMxCyKoJYqM&branch=main)](https://app.travis-ci.com/Tigrino22/Framework)
+[![Build Status](https://app.travis-ci.com/Tigrino22/Framework.svg?token=FPUmKFe4CQMxCyKoJYqM&branch=main)](https://app.travis-ci.com/Tigrino22/Framework) [![Coverage Status](https://coveralls.io/repos/github/Tigrino22/Framework/badge.svg?branch=main)](https://coveralls.io/github/Tigrino22/Framework?branch=main)
 
 Bienvenue dans le **Tigrino Framework**, un framework PHP léger et flexible conçu pour vous aider à développer des applications web avec facilité.
 

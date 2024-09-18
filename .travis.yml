@@ -1,10 +1,7 @@
 language: php
 
 php:
-  - 8.2
-
-install:
-  - composer install
+  - 8.3
 
 script:
   - ./vendor/bin/phpcbf
