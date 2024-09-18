@@ -36,10 +36,14 @@ class Database implements DatabaseInterface
      */
     public function query(string $query, array $params = []): mixed
     {
-        $stmt = $this->pdo->prepare($query);
+        try {
+            $stmt = $this->pdo->prepare($query);
 
-        if ($stmt->execute($params)) {
-            return $stmt->fetchAll();
+            if ($stmt->execute($params)) {
+                return $stmt->fetchAll();
+            }
+        } catch (PDOException $e) {
+            return false;
         }
 
         return false;

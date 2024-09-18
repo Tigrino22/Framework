@@ -2,9 +2,9 @@
 
 namespace Tigrino\Core\Session;
 
+use Ramsey\Uuid\Uuid;
 use Random\RandomException;
 use Tigrino\Core\Database\DatabaseInterface;
-use Tigrino\Core\Session\SessionManagerInterface;
 
 class SessionManager implements SessionManagerInterface
 {
@@ -22,7 +22,7 @@ class SessionManager implements SessionManagerInterface
      * @return string
      * @throws RandomException
      */
-    public function createSession(int $userId): string
+    public function createSession(string $userId): string
     {
         $sessionToken = bin2hex(random_bytes(32));
         // Sauvegarde en base avec l'ID de l'utilisateur

@@ -77,4 +77,18 @@ class DatabaseTest extends TestCase
         $this->assertCount(1, $result);
         $this->assertEquals('Last Insert Test', $result[0]['name']);
     }
+
+    public function testGetConnection()
+    {
+        $conection = $this->db->getConnection();
+
+        $this->assertInstanceOf(\PDO::class, $conection);
+    }
+
+    public function testQueryReturnFalseIfErrorGiven()
+    {
+        $result = $this->db->query("SELECT * FROM user WHERE name = ?", ['test']);
+
+        $this->assertFalse($result);
+    }
 }

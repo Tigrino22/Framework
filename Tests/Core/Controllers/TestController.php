@@ -44,7 +44,7 @@ class TestController extends AbstractController
             "data" => $data
         ]);
     }
-    
+
     /**
      * testAction pour test AbtractController
      *

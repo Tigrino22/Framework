@@ -35,7 +35,7 @@ class App
      *
      *  @var ModuleInterface[]
      */
-    private $modules = [];
+    private array $modules = [];
 
     /**
      * __construct
@@ -49,7 +49,7 @@ class App
     {
         $this->router = new Router();
 
-        // Ajout des routes générales.
+        // Ajout des routes générales. CONFIG_DIR = ./Config/**
         $this->router->addRoutes(include(CONFIG_DIR . "/Routes.php"));
 
         /**
@@ -57,7 +57,8 @@ class App
          * en passant par la méthode __invocke?
          */
         foreach ($modules as $module) {
-            (new $module())($this);
+            $this->modules[] = new $module();
+            end($this->modules)($this);
         }
     }
 
@@ -75,6 +76,11 @@ class App
         } else {
             $this->middlewares[] = $middlewares;
         }
+    }
+
+    public function getMiddleware(): array
+    {
+        return $this->middlewares;
     }
 
     /**
@@ -108,5 +114,10 @@ class App
     public function getRouter(): RouterInterface
     {
         return $this->router;
+    }
+
+    public function getModules(): array
+    {
+        return $this->modules;
     }
 }

@@ -3,59 +3,103 @@
 namespace Tests\Core\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Tigrino\Core\Middleware\CORSMiddleware;
+use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Server\RequestHandlerInterface;
-use Tigrino\Core\Middleware\CorsMiddleware;
-use Tigrino\Http\Response\JsonResponse;
 
-class CorsMiddlewareTest extends TestCase
+class CORSMiddlewareTest extends TestCase
 {
-    private CorsMiddleware $middleware;
+    protected CORSMiddleware $middleware;
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $this->middleware = new CorsMiddleware([
-            'allowed_origins' => ['*'],
-            'allowed_methods' => ['GET', 'POST', 'OPTIONS'],
+        $this->middleware = new CORSMiddleware([
+            'allowed_origins' => ['http://example.com'],
+            'allowed_methods' => ['GET', 'POST'],
             'allowed_headers' => ['Content-Type', 'Authorization'],
-            'exposed_headers' => ['X-Custom-Header'],
-            'max_age' => 3600,
-            'allow_credentials' => true,
         ]);
     }
 
     public function testHandlePreflightRequest()
     {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getMethod')->willReturn('OPTIONS');
-        $request->method('getHeaderLine')->willReturn('*');
+        // Simule une requête OPTIONS avec un en-tête Origin
+        $request = new ServerRequest('OPTIONS', '/');
+        $request = $request->withHeader('Origin', 'http://example.com');
 
         $handler = $this->createMock(RequestHandlerInterface::class);
-        $handler->method('handle')->willReturn(new JsonResponse());
 
+        // Exécute le middleware
         $response = $this->middleware->process($request, $handler);
 
+        // Vérifie que le middleware retourne bien les en-têtes CORS corrects
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('*', $response->getHeaderLine('Access-Control-Allow-Origin'));
-        $this->assertEquals('GET, POST, OPTIONS', $response->getHeaderLine('Access-Control-Allow-Methods'));
+        $this->assertEquals('http://example.com', $response->getHeaderLine('Access-Control-Allow-Origin'));
+        $this->assertEquals('GET, POST', $response->getHeaderLine('Access-Control-Allow-Methods'));
         $this->assertEquals('Content-Type, Authorization', $response->getHeaderLine('Access-Control-Allow-Headers'));
-        $this->assertEquals('3600', $response->getHeaderLine('Access-Control-Max-Age'));
     }
 
-    public function testHandleRequest()
+    public function testProcessWithNormalRequest()
     {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getMethod')->willReturn('GET');
-        $request->method('getHeaderLine')->willReturn('*');
+        // Simule une requête normale (GET)
+        $request = new ServerRequest('GET', '/');
+        $request = $request->withHeader('Origin', 'http://example.com');
 
+        // Mock un handler qui retourne une réponse vide
         $handler = $this->createMock(RequestHandlerInterface::class);
-        $handler->method('handle')->willReturn(new JsonResponse());
+        $handler->method('handle')->willReturn(new Response());
 
+        // Exécute le middleware
         $response = $this->middleware->process($request, $handler);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('*', $response->getHeaderLine('Access-Control-Allow-Origin'));
+        // Vérifie que les en-têtes CORS sont ajoutés
+        $this->assertEquals('http://example.com', $response->getHeaderLine('Access-Control-Allow-Origin'));
+        $this->assertEquals('false', $response->getHeaderLine('Access-Control-Allow-Credentials'));
     }
+
+    public function testProcessWithInvalidOrigin()
+    {
+        // Simule une requête avec une origine non autorisée
+        $request = new ServerRequest('GET', '/');
+        $request = $request->withHeader('Origin', 'http://invalid.com');
+
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')->willReturn(new Response());
+
+        // Exécute le middleware
+        $response = $this->middleware->process($request, $handler);
+
+        // Vérifie que les en-têtes CORS ne sont pas ajoutés
+        $this->assertEmpty($response->getHeader('Access-Control-Allow-Origin'));
+    }
+
+    public function testProcessWithExposedHeaders()
+    {
+        // Crée un middleware avec des 'exposed_headers' spécifiques
+        $middleware = new CORSMiddleware([
+            'allowed_origins' => ['http://example.com'],
+            'exposed_headers' => ['X-Custom-Header', 'X-Another-Header'],
+        ]);
+
+        // Simule une requête normale (GET)
+        $request = new ServerRequest('GET', '/');
+        $request = $request->withHeader('Origin', 'http://example.com');
+
+        // Mock un handler qui retourne une réponse vide
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')->willReturn(new Response());
+
+        // Exécute le middleware
+        $response = $middleware->process($request, $handler);
+
+        // Vérifie que les en-têtes CORS sont ajoutés
+        $this->assertEquals('http://example.com', $response->getHeaderLine('Access-Control-Allow-Origin'));
+
+        // Vérifie que les en-têtes exposés sont correctement ajoutés
+        $this->assertEquals(
+            'X-Custom-Header, X-Another-Header',
+            $response->getHeaderLine('Access-Control-Expose-Headers')
+        );
+    }
+
 }

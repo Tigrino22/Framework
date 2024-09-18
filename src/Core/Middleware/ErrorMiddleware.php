@@ -24,10 +24,7 @@ class ErrorMiddleware implements MiddlewareInterface
             return new Response(
                 500,
                 [],
-                [
-                    'error' => 'Internal Server Error',
-                    'message' => $exception->getMessage(),
-                ]
+                "Internal Server Error with message : {$exception->getMessage()}"
             );
         }
     }
