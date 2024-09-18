@@ -13,6 +13,7 @@ composer.lock
 
 # Fichiers de log
 *.log
+/tmp/
 
 # Perso
 Sql/

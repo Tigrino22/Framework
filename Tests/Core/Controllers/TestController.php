@@ -44,4 +44,15 @@ class TestController extends AbstractController
             "data" => $data
         ]);
     }
+    
+    /**
+     * testAction pour test AbtractController
+     *
+     * @return ResponseInterface
+     */
+    public function testAction(): ResponseInterface
+    {
+        // Simuler une réponse HTTP
+        return new Response(200, [], 'Test réussi');
+    }
 }
