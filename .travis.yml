@@ -1,8 +1,24 @@
 language: php
 
 php:
-  - 8.3
+  - '8.3'
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS db_test;'
+  - echo "# .env
+      APP_ENV="DEV"
+
+      # DATABASE
+      DB_HOST="127.0.0.1"
+      DB_NAME="db_test"
+      DB_USER="travis"
+      DB_PASSWORD=""
+  " > Tests/.env
 
 script:
-  - ./vendor/bin/phpcbf
-  - ./vendor/bin/phpunit --colors --coverage-text
+  - composer install
+  - vendor/bin/phpcbf
+  - vendor/bin/phpunit
