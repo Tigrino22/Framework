@@ -1,24 +1,31 @@
 language: php
 
 php:
-  - '8.3'
+  - '8.3'  # Utilisation de PHP 8.3
 
 services:
-  - mysql
+  - mysql  # Service MySQL pour la base de données
 
 before_install:
+  # Création de la base de données MySQL pour les tests
   - mysql -e 'CREATE DATABASE IF NOT EXISTS db_test;'
+  
+  # Création d'un fichier .env pour les tests avec les informations de connexion à la base de données
   - echo "# .env
-      APP_ENV="DEV"
+        APP_ENV=DEV
+        DB_HOST=127.0.0.1
+        DB_NAME=db_test
+        DB_USER=travis
+        DB_PASSWORD=
+      " > Tests/.env
 
-      # DATABASE
-      DB_HOST="127.0.0.1"
-      DB_NAME="db_test"
-      DB_USER="travis"
-      DB_PASSWORD=""
-  " > Tests/.env
+install:
+  # Installation des dépendances via Composer
+  - composer install
 
 script:
-  - composer install
+  # Lancement de PHP Code Beautifier (corrige automatiquement les erreurs de style)
   - vendor/bin/phpcbf
+  
+  # Lancement des tests PHPUnit
   - vendor/bin/phpunit
