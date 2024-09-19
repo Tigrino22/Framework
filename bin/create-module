@@ -39,6 +39,8 @@ class ${MODULE_NAME}Module implements ModuleInterface
 {
     public function __invoke(App &\$app)
     {
+        \$this->app = \$app;
+        \$this->app->getRouter()->addRoutes(include __DIR__ . "/Config/Routes.php");
         // Logique d'initialisation du module
     }
 }
@@ -63,7 +65,7 @@ use Psr\\Http\\Message\\ServerRequestInterface;
 
 class ${MODULE_NAME}Controller extends AbstractController
 {
-    public function index(ServerRequestInterface \$request): ResponseInterface
+    public function index(): ResponseInterface
     {
         // Logique pour la méthode index
     }
