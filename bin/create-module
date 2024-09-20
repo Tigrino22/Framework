@@ -37,10 +37,13 @@ use Tigrino\\Core\\Modules\\ModuleInterface;
 
 class ${MODULE_NAME}Module implements ModuleInterface
 {
+
+    private App \$app;
+
     public function __invoke(App &\$app)
     {
-        \$this->app = \$app;
-        \$this->app->getRouter()->addRoutes(include __DIR__ . "/Config/Routes.php");
+        \$this->app = &\$app;
+        \$this->app->getRouter()->addRoutes(include __DIR__ . \"/Config/Routes.php\");
         // Logique d'initialisation du module
     }
 }

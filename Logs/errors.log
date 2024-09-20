@@ -1,0 +1,2 @@
+[2024-09-20 15:23:14] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 31
+[2024-09-20 15:23:14] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 44
