@@ -40,11 +40,12 @@ jobs:
           ini-values: post_max_size=256M, upload_max_filesize=256M
           coverage: none
 
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        
       - name: Run PHP CodeSniffer
         run: vendor/bin/phpcs --standard=PSR12 src/
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Create .env file for tests
         run: |
