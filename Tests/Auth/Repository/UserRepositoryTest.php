@@ -34,7 +34,7 @@ class UserRepositoryTest extends TestCase
             username VARCHAR(60) NOT NULL,
             email VARCHAR(150) NOT NULL,
             password VARCHAR(60) NOT NULL,
-            roles JSON NOT NULL DEFAULT ('[\"user\"]'),
+            roles JSON NOT NULL DEFAULT '[\"user\"]',
             session_token VARCHAR(128),
             is_banned BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
