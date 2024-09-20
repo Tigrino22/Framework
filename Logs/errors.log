@@ -15,3 +15,7 @@
 [2024-09-20 09:17:11] ERROR: Level: 8 | Message: file_get_contents(): Read of 8448 bytes failed with errno=21 Is a directory | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 36
 [2024-09-20 09:17:36] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
 [2024-09-20 09:17:36] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
+[2024-09-20 12:33:21] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
+[2024-09-20 12:33:21] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
+[2024-09-20 12:34:01] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
+[2024-09-20 12:34:01] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
