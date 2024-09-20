@@ -61,10 +61,11 @@ jobs:
             sleep 5
           done
 
-      - name: Run tests with coverage
-        run: ./vendor/bin/phpunit --coverage-xml > .coverage.xml
+      - name: Run tests
+        run: ./vendor/bin/phpunit --coverage-text --colors --coverage-clover build/logs/clover.xml
 
-      - name: Upload coverage reports to Codecov with GitHub Action
-        uses: codecov/codecov-action@v4.2.0
+      - name: Upload coverage results to Coveralls
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          ./vendor/bin/coveralls
