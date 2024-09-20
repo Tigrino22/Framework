@@ -62,7 +62,7 @@ jobs:
           done
 
       - name: Run tests
-        run: ./vendor/bin/phpunit --coverage-text --colors --coverage-clover build/logs/clover.xml
+        run: ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@v2
