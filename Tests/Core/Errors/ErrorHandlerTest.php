@@ -33,7 +33,7 @@ class ErrorHandlerTest extends TestCase
 
         $this->errorHandler->handleError($level, $message, $file, $line);
 
-        $logContent = file_get_contents(__DIR__ . "/../../../Logs/errors.log");
+        $logContent = file_get_contents(dirname(__DIR__, 3) . "/Logs/errors.log");
         $this->assertStringContainsString('ERROR: Level: ' . $level, $logContent);
         $this->assertStringContainsString('Message: ' . $message, $logContent);
         $this->assertStringContainsString('File: ' . $file, $logContent);
@@ -46,7 +46,7 @@ class ErrorHandlerTest extends TestCase
 
         $this->errorHandler->handleException($exception);
 
-        $logContent = file_get_contents(__DIR__ . "/../../../Logs/errors.log");
+        $logContent = file_get_contents(dirname(__DIR__, 3) . "/Logs/errors.log");
         $this->assertStringContainsString('EXCEPTION: ' . $exception->getMessage(), $logContent);
         $this->assertStringContainsString('File: ' . $exception->getFile(), $logContent);
         $this->assertStringContainsString('Line: ' . $exception->getLine(), $logContent);

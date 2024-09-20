@@ -16,7 +16,7 @@ class UserRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $dotenv = Dotenv::createUnsafeImmutable(
-            dirname(dirname(__DIR__))
+            dirname(dirname(__DIR__, 2))
         );
         $dotenv->load();
 
