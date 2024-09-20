@@ -62,7 +62,7 @@ jobs:
           done
 
       - name: Run tests with coverage
-        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-xml > .coverage.xml
+        run: ./vendor/bin/phpunit --coverage-xml > .coverage.xml
 
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
