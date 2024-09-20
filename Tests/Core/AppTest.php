@@ -21,7 +21,7 @@ class AppTest extends TestCase
     {
         require_once dirname(__DIR__, 2) . "/Config/Config.php";
 
-        $dotenv = Dotenv::createUnsafeImmutable(dirname(__DIR__));
+        $dotenv = Dotenv::createUnsafeImmutable(dirname(__DIR__, 2));
         $dotenv->load();
 
         $this->app = new App([]);

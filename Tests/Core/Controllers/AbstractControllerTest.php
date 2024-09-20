@@ -11,23 +11,23 @@ class AbstractControllerTest extends TestCase
 {
     public function testExecuteMethodExists()
     {
-            // Instanciation de la classe concrète
-            $controller = new TestController();
+        // Instanciation de la classe concrète
+        $controller = new TestController();
 
-            // Création d'une fausse requête ServerRequest
-            $request = new ServerRequest('GET', '/test');
+        // Création d'une fausse requête ServerRequest
+        $request = new ServerRequest('GET', '/test');
 
-            // Appel de la méthode 'execute' pour tester 'testAction'
-            $response = $controller->execute('testAction', [], $request);
+        // Appel de la méthode 'execute' pour tester 'testAction'
+        $response = $controller->execute('testAction', [], $request);
 
-            // Vérification du type de réponse
-            $this->assertInstanceOf(ResponseInterface::class, $response);
+        // Vérification du type de réponse
+        $this->assertInstanceOf(ResponseInterface::class, $response);
 
-            // Vérification du statut de la réponse
-            $this->assertEquals(200, $response->getStatusCode());
+        // Vérification du statut de la réponse
+        $this->assertEquals(200, $response->getStatusCode());
 
-            // Vérification du corps de la réponse
-            $this->assertEquals('Test réussi', (string) $response->getBody());
+        // Vérification du corps de la réponse
+        $this->assertEquals('Test réussi', (string) $response->getBody());
     }
 
     public function testExecuteMethodNotFound()
