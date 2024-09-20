@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 class ErrorHandlerTest extends TestCase
 {
     private ErrorHandler $errorHandler;
-    private string $logFile;
 
     protected function setUp(): void
     {
