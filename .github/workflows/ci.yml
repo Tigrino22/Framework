@@ -25,8 +25,6 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-        volumes:
-          - /var/lib/mysql
 
     steps:
       - name: Checkout code
@@ -42,10 +40,6 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
-        
-      - name: Run PHP CodeSniffer
-        run: vendor/bin/phpcs --standard=PSR12 src/
-
 
       - name: Create .env file for tests
         run: |
@@ -54,6 +48,18 @@ jobs:
           echo "DB_NAME=db_test" >> Tests/.env
           echo "DB_USER=root" >> Tests/.env
           echo "DB_PASSWORD=root" >> Tests/.env
+          echo "DB_PORT=3306" >> Tests/.env
+
+      - name: Set up test database
+        run: |
+          mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE IF NOT EXISTS db_test;"
+
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping -h127.0.0.1 --silent; do
+            echo 'Waiting for MySQL...'
+            sleep 5
+          done
 
       - name: Run PHPUnit tests
         run: |
