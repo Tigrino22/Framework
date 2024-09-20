@@ -61,13 +61,10 @@ jobs:
             sleep 5
           done
 
-      - name: Run PHPUnit tests
-        run: |
-          vendor/bin/phpunit --configuration phpunit.xml --testdox
+      - name: Run tests with coverage
+        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-xml > .coverage.xml
 
-      - name: Upload coverage results to Coveralls
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v4.2.0
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer require php-coveralls/php-coveralls
-          ./vendor/bin/coveralls --coverage_clover build/logs/clover.xml -v
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

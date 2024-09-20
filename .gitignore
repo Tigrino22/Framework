@@ -15,6 +15,7 @@ composer.lock
 Logs/
 *.log
 /tmp/
+/coverage/
 
 # Perso
 Sql/

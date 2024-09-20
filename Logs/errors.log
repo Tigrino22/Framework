@@ -19,3 +19,9 @@
 [2024-09-20 12:33:21] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
 [2024-09-20 12:34:01] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
 [2024-09-20 12:34:01] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
+[2024-09-20 13:12:26] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
+[2024-09-20 13:12:26] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
+[2024-09-20 13:13:18] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
+[2024-09-20 13:13:18] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
+[2024-09-20 13:13:59] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 32
+[2024-09-20 13:14:00] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 45
