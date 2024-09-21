@@ -1,5 +1,5 @@
 {
-    "name": "tigrino/framework",
+    "name": "tigrino/tigrino-framework",
     "type": "package",
     "description": "A basic framework who you can set like you want, with CORS, Routes, and Auth",
     "keywords": ["framework"],
