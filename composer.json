@@ -5,7 +5,6 @@
     "keywords": ["framework"],
     "homepage": "https://github.com/Tigrino22/Framework",
     "license": "MIT",
-    "version": "0.0.1",
     "autoload": {
         "psr-4": {
             "Tigrino\\": "src/",
