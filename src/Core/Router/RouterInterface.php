@@ -22,6 +22,13 @@ interface RouterInterface
      */
     public function getRoutes(): array;
 
+        /**
+     * Retrieves all protected routes by Auth.
+     * Useful if you want to process or display protected routes.
+     * @return array protected routes.
+     */
+    public function getProtectedRoutes(): array;
+
     /**
      * Match a given Request Url against stored routes
      * @param string $requestUrl

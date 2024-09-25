@@ -78,7 +78,10 @@ class ${MODULE_NAME}Controller extends AbstractController
 # Prépare l'entrée pour le module
 MODULE_ENTRY="${MODULE_NAME}Module::class"
 
+
+# Récupération du chemin absolu du script puis remontant le dossier parent de bin/
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # Appelle le script PHP pour ajouter le module à ./Config/Modules.php
-php bin/add-module.php "$MODULE_ENTRY" "$MODULE_NAME"
+php $script_dir/add-module.php "$MODULE_ENTRY" "$MODULE_NAME"
 
 echo "Le module '$MODULE_NAME' a été créé avec succès dans le dossier 'src/$MODULE_NAME'."

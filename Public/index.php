@@ -1,17 +1,21 @@
 <?php
 
 require "../vendor/autoload.php";
-require_once __DIR__ . "/../Config/Config.php";
 
-use GuzzleHttp\Psr7\ServerRequest;
 use Tigrino\Core\App;
+use Tigrino\Config\Config;
+use function Http\Response\send;
+use GuzzleHttp\Psr7\ServerRequest;
+
+
 use Tigrino\Core\Middleware\WhoopsMiddleware;
 
-use function Http\Response\send;
+// Chagrement des configuration
+Config::load();
 
 // import des modules depuis le fichiers de configuration Config/Modules.php
-$middlewares = CONFIG_DIR . "/Middlewares.php";
-$modules = CONFIG_DIR . "/Modules.php";
+$middlewares = Config::CONFIG_DIR . "/Middlewares.php";
+$modules = Config::CONFIG_DIR . "/Modules.php";
 
 // Initialisation de l'app en passant le tableau de routes en paramètre.
 $app = new App(include($modules));

@@ -2,11 +2,15 @@
 
 namespace Tests\Core\Router;
 
+use Dotenv\Dotenv;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Tigrino\Core\Router\Router;
 use Tests\Core\Controllers\TestController;
+use Tigrino\Attaque\AttaqueModule;
+use Tigrino\Auth\AuthModule;
+use Tigrino\Config\Config;
 use Tigrino\Core\App;
 use Tigrino\Http\Response\JsonResponse;
 
@@ -17,6 +21,9 @@ class RouterTest extends TestCase
 
     protected function setUp(): void
     {
+        $dotenv = Dotenv::createUnsafeImmutable(Config::BASE_PATH);
+        $dotenv->load();
+
         $this->router = new Router();
     }
 
@@ -126,7 +133,7 @@ class RouterTest extends TestCase
             ["GET", "/admin", [TestController::class, "admin"], "admin.dashboard", ["admin"]]
         ];
 
-        $app = new App([]);
+        $app = new App([AuthModule::class]);
         $app->getRouter()->addRoutes($routes);
 
         // Simuler une requête avec un rôle insuffisant

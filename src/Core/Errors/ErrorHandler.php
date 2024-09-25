@@ -3,10 +3,11 @@
 namespace Tigrino\Core\Errors;
 
 use Throwable;
+use Tigrino\Config\Config;
 
 class ErrorHandler
 {
-    private string $logDir = __DIR__ . "/../../../Logs";
+    private string $logDir = Config::BASE_PATH . "Logs" . DIRECTORY_SEPARATOR;
 
     public function register(): void
     {
@@ -28,26 +29,26 @@ class ErrorHandler
 
     private function logError(int $level, string $message, string $file, int $line): void
     {
-        $this->checkDir($this->logDir, $this->logDir . "/errors.log");
+        $this->checkDir($this->logDir, $this->logDir . "errors.log");
 
         $logMessage = sprintf(
             "[%s] ERROR: %s\n",
             date('Y-m-d H:i:s'),
             "Level: $level | Message: $message | File: $file | Line: $line"
         );
-        file_put_contents(__DIR__ . "/../../../Logs/errors.log", $logMessage, FILE_APPEND);
+        file_put_contents($this->logDir . "errors.log", $logMessage, FILE_APPEND);
     }
 
     private function logException(Throwable $exception): void
     {
-        $this->checkDir($this->logDir, $this->logDir . "/errors.log");
+        $this->checkDir($this->logDir, $this->logDir . "errors.log");
 
         $exceptionMessage = sprintf(
             "[%s] EXCEPTION: %s\n",
             date('Y-m-d H:i:s'),
             "{$exception->getMessage()} | File: {$exception->getFile()} | Line: {$exception->getLine()}"
         );
-        file_put_contents(__DIR__ . "/../../../logs/errors.log", $exceptionMessage, FILE_APPEND);
+        file_put_contents($this->logDir . "errors.log", $exceptionMessage, FILE_APPEND);
     }
 
     /**

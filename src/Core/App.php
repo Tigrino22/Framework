@@ -2,14 +2,15 @@
 
 namespace Tigrino\Core;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Relay\Relay;
-use Tigrino\Auth\Middleware\AuthMiddleware;
-use Tigrino\Core\Modules\ModuleInterface;
+use Tigrino\Config\Config;
 use Tigrino\Core\Router\Router;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Tigrino\Core\Router\RouterInterface;
+use Tigrino\Core\Modules\ModuleInterface;
+use Tigrino\Auth\Middleware\AuthMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * App
@@ -50,7 +51,7 @@ class App
         $this->router = new Router();
 
         // Ajout des routes générales. CONFIG_DIR = ./Config/**
-        $this->router->addRoutes(include(CONFIG_DIR . "/Routes.php"));
+        $this->router->addRoutes(include(Config::CONFIG_DIR . "Routes.php"));
 
         /**
          * Initialisation de chaque module
@@ -65,16 +66,18 @@ class App
     /**
      * Fonction ajoutant des middlewares a l'application
      *
-     *  @param MiddlewareInterface[]|MiddlewareInterface
+     *  @param MiddlewareInterface[]|MiddlewareInterface|null
      */
-    public function addMiddleware($middlewares): void
+    public function addMiddleware($middlewares = null): void
     {
-        if (is_array($middlewares)) {
-            foreach ($middlewares as $middleware) {
-                $this->middlewares[] = $middleware;
+        if ($middlewares) {
+            if (is_array($middlewares)) {
+                foreach ($middlewares as $middleware) {
+                    $this->middlewares[] = $middleware;
+                }
+            } else {
+                $this->middlewares[] = $middlewares;
             }
-        } else {
-            $this->middlewares[] = $middlewares;
         }
     }
 
@@ -91,9 +94,6 @@ class App
      */
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-        // Middleware de protection des routes
-        $this->addMiddleware(new AuthMiddleware($this->router->getProtectedRoutes(), $this->router));
-
         // Last middleware pour géré le routing
         $this->addMiddleware(function ($request, $handler) {
             return $this->router->dispatch($request);

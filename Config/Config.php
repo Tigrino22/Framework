@@ -5,20 +5,24 @@
  * Déclaration des constantes et initialisation des paramètres.
  */
 
+namespace Tigrino\Config;
+
 use Dotenv\Dotenv;
 use Tigrino\Core\Errors\ErrorHandler;
 
-// Initialisation et exécution de la logique
-(function () {
-    // Déclaration des constantes
-    define("BASE_PATH", dirname(__DIR__));
-    define("CONFIG_DIR", __DIR__);
+class Config
+{
+    public const BASE_PATH = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR;
+    public const CONFIG_DIR = __DIR__ . DIRECTORY_SEPARATOR;
 
-    // Chargement des variables d'environnement
-    $dotenv = Dotenv::createUnsafeImmutable(BASE_PATH);
-    $dotenv->load();
+    public static function load()
+    {
+            // Chargement des variables d'environnement
+        $dotenv = Dotenv::createUnsafeImmutable(self::BASE_PATH);
+        $dotenv->load();
 
-    // Enregistrement du ErrorHandler pour la capture des erreurs
-    $errorHandler = new ErrorHandler();
-    $errorHandler->register();
-})();
+        // Enregistrement du ErrorHandler pour la capture des erreurs
+        $errorHandler = new ErrorHandler();
+        $errorHandler->register();
+    }
+}

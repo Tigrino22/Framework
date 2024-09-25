@@ -3,11 +3,17 @@
 # Définition de l'adresse et du port
 host="127.0.0.1"
 port=8000
-public_dir="$(dirname "$0")/../public"
 
-# Vérification si le dossier public/ existe
-if [ ! -d "$public_dir" ]; then
-    echo -e "\033[31mErreur: le dossier public/ n'existe pas.\033[0m"
+# Récupération du chemin absolu du script puis remontant le dossier parent de bin/
+script_dir=$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")
+
+# Définir le répertoire public en fonction de l'environnement
+if [ -d "$script_dir/Public" ]; then
+    public_dir="$script_dir/Public"
+elif [ -d "$script_dir/vendor/tigrino/tigrino-framework/public" ]; then
+    public_dir="$script_dir/vendor/tigrino/tigrino-framework/public"
+else
+    echo -e "\033[31mErreur: le dossier Public n'existe pas.\033[0m"
     exit 1
 fi
 

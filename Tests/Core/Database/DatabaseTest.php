@@ -13,7 +13,7 @@ class DatabaseTest extends TestCase
     protected function setUp(): void
     {
 
-        $dotenv = Dotenv::createUnsafeImmutable(dirname(dirname(dirname(__DIR__))));
+        $dotenv = Dotenv::createUnsafeImmutable(dirname((__DIR__), 3));
         $dotenv->load();
 
         // Crée une instance de la classe Database

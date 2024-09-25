@@ -19,9 +19,8 @@ class AuthMiddleware implements MiddlewareInterface
     private UserRepository $userRepository;
     private User $user;
 
-    public function __construct(array $protectedRoutes, RouterInterface $router)
+    public function __construct(RouterInterface $router)
     {
-        $this->protectedRoutes = $protectedRoutes;
         $this->router = $router;
         $this->userRepository = new UserRepository();
     }
@@ -37,6 +36,9 @@ class AuthMiddleware implements MiddlewareInterface
         // Obtenir le chemin et la méthode HTTP
         $path = $request->getUri()->getPath();
         $method = $request->getMethod();
+
+        // obtention des routes protégées
+        $this->protectedRoutes = $this->router->getProtectedRoutes();
 
         // Match pour trouver une route qui correspond a la requête
         $match = $this->router->match($method, $path);
