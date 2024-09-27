@@ -3,11 +3,17 @@
 namespace Tigrino\Core\Errors;
 
 use Throwable;
-use Tigrino\Config\Config;
 
 class ErrorHandler
 {
-    private string $logDir = Config::BASE_PATH . "Logs" . DIRECTORY_SEPARATOR;
+    private string $logDir;
+
+    public function __construct()
+    {
+        // On vérifie si le projet est installé via Composer dans /vendor/
+        $baseDir = dirname(__DIR__, 3); // Remonte à la racine du projet utilisateur
+        $this->logDir = $baseDir . DIRECTORY_SEPARATOR . "Logs" . DIRECTORY_SEPARATOR;
+    }
 
     public function register(): void
     {

@@ -10,5 +10,5 @@
 use Tigrino\Api\Blog\Controllers\ExampleController;
 
 return [
-    ["GET", "/",    [ExampleController::class,  "index"],   "blog", ["user"]],
+    ["GET", "/",    [ExampleController::class,  "index"],   "blog", []],
 ];

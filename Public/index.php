@@ -1,13 +1,12 @@
 <?php
 
 require "../vendor/autoload.php";
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . "Config" . DIRECTORY_SEPARATOR . "Config.php";
 
+use Config\Config;
 use Tigrino\Core\App;
-use Tigrino\Config\Config;
 use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
-
-
 use Tigrino\Core\Middleware\WhoopsMiddleware;
 
 // Chagrement des configuration

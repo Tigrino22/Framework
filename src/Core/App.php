@@ -3,7 +3,7 @@
 namespace Tigrino\Core;
 
 use Relay\Relay;
-use Tigrino\Config\Config;
+use Config\Config;
 use Tigrino\Core\Router\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;

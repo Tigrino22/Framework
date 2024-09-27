@@ -5,7 +5,7 @@
  * Déclaration des constantes et initialisation des paramètres.
  */
 
-namespace Tigrino\Config;
+ namespace Config;
 
 use Dotenv\Dotenv;
 use Tigrino\Core\Errors\ErrorHandler;
@@ -17,7 +17,7 @@ class Config
 
     public static function load()
     {
-            // Chargement des variables d'environnement
+        // Chargement des variables d'environnement
         $dotenv = Dotenv::createUnsafeImmutable(self::BASE_PATH);
         $dotenv->load();
 
