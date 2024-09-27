@@ -7,12 +7,19 @@ port=8000
 # Récupération du chemin absolu du script puis remontant le dossier parent de bin/
 script_dir=$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")
 
-# Définir le répertoire public en fonction de l'environnement
-if [ -d "$script_dir/Public" ]; then
-    public_dir="$script_dir/Public"
-elif [ -d "$script_dir/vendor/tigrino/tigrino-framework/public" ]; then
-    public_dir="$script_dir/vendor/tigrino/tigrino-framework/public"
+# Vérifier si le script est exécuté dans le dossier vendor (donc utilisé en tant que dépendance)
+if [[ "$script_dir" == *"/vendor/tigrino/tigrino-framework"* ]]; then
+    # Remonter au dossier racine du projet utilisateur
+    project_root=$(dirname "$(dirname "$(dirname "$script_dir")")")
+    public_dir="$project_root/Public"
+    
 else
+    # Si le script est directement dans le projet
+    public_dir="$script_dir/Public"
+fi
+
+# Vérifier si le répertoire Public existe
+if [ ! -d "$public_dir" ]; then
     echo -e "\033[31mErreur: le dossier Public n'existe pas.\033[0m"
     exit 1
 fi

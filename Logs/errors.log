@@ -8,3 +8,5 @@
 [2024-09-25 08:25:23] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 44
 [2024-09-25 11:53:51] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 31
 [2024-09-25 11:53:51] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 44
+[2024-09-25 12:03:29] ERROR: Level: 1024 | Message: Test error | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 31
+[2024-09-25 12:03:29] EXCEPTION: Test exception | File: /Users/valentin/Desktop/Code/PHP/TigrinoFramework/Tests/Core/Errors/ErrorHandlerTest.php | Line: 44
